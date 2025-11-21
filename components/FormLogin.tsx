@@ -31,7 +31,7 @@ function FormLogin({}: Props) {
         console.log("Ha pasadoo el logueo", datos)
         //Aca se haría el llamado a la bd para verificar los datos y salta al home o dashboard
         //navigate('/dashboard', { replace: true });
-        router.push('/dashboard');
+        router.push('/home');
     }
 
   return (
