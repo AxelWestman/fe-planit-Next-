@@ -11,10 +11,13 @@ import { useRouter } from "next/navigation";
 import Carousel from '@/components/Carousel'
 import { useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
+import { useRegister } from '@/hooks/useRegister';
 
 type Props = {
     funciones: {
     toggleShowA: () => void;
+    mensajeError: (error: string) => void;
+    toggleShowB: () => void;
     formLogin: () => void;
   };
 }
@@ -24,7 +27,9 @@ type Register = {
     password: string
 }
 
+
 function FormRegister({ funciones }: Props) {
+    const { registerHook, error } = useRegister();
 
     const [loading, setLoading] = useState(false)
 
@@ -35,15 +40,27 @@ function FormRegister({ funciones }: Props) {
     //const navigate = useNavigate();
     const router = useRouter();
 
-    const logueo = (datos: any) => {
-        setLoading(true)
-        setTimeout(() => {
-            console.log("Ha pasadoo el logueo", datos)
-            funciones.toggleShowA();
-            funciones.formLogin()
-            setLoading(false)
-        }, 2000);
+    const logueo = async (datos: any) => {
+  setLoading(true);
+
+  setTimeout(async () => {
+    const { data, error } = await registerHook(datos);
+
+    if (error || !data) {
+      console.log('Error de registro:', error);
+      funciones.mensajeError(error!);
+      funciones.toggleShowB(); // mostrar error
+      setLoading(false);
+      return;
     }
+
+    console.log('Registro OK', data);
+
+    funciones.toggleShowA();
+    funciones.formLogin();
+    setLoading(false);
+  }, 2000);
+};
 
     return (
         <>
@@ -74,6 +91,9 @@ function FormRegister({ funciones }: Props) {
                             </Form.Label>
                             <Col>
                                 <Form.Control type="password" {...register('password')} className="border border-b-gray-500 rounded" />
+                                  {
+                                    errors.password?.message && <p className="text-red-600 text-sm mb-0 mt-1">{errors.password?.message}</p>
+                                }
                             </Col>
                         </Form.Group>
                         <div className="w-full flex flex-col items-center">
