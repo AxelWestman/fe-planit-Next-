@@ -7,9 +7,16 @@ import { useForm } from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod'
 import {loginSchema} from '../validations/loginSchema';
 import { useRouter } from "next/navigation";
+import { useLogin } from '@/hooks/useLogin';
+import { useState } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 
 type Props = {
     onClick: () => void;
+    funciones : {
+    mensajeError: (error: string) => void;
+    toggleShowB: () => void;
+    }
 }
 
 type Login = {
@@ -17,7 +24,10 @@ type Login = {
     password: string
 }
 
-function FormLogin({onClick}: Props) {
+function FormLogin({funciones, onClick}: Props) {
+    const { loginHook, error } = useLogin();
+
+    const [loading, setLoading] = useState(false)
 
     const {register, handleSubmit, formState: {errors}} = useForm<Login>({
         resolver: zodResolver(loginSchema) 
@@ -26,12 +36,28 @@ function FormLogin({onClick}: Props) {
     //const navigate = useNavigate();
     const router = useRouter();
 
-    const logueo = (datos: any) => {
+    const logueo = async (datos: any) => {
+          setLoading(true);
+        setTimeout(async () => {
+        const { data, error } = await loginHook(datos);
+
         console.log("Ha pasadoo el logueo", datos)
-        //Aca se haría el llamado a la bd para verificar los datos y salta al home o dashboard
-        //navigate('/dashboard', { replace: true });
-        router.push('/home');
-    }
+
+        if (error || !data) {
+            console.log('Error de registro:', error);
+            funciones.mensajeError(error!);
+            funciones.toggleShowB(); // mostrar error
+            setLoading(false);
+            return;
+        }
+        router.push('/dashboard');
+        console.log('Registro OK', data);
+        setLoading(false);
+    }, 2000);
+    //Aca se haría el llamado a la bd para verificar los datos y salta al home o dashboard
+    //navigate('/dashboard', { replace: true });
+    //router.push('/home');
+}
 
   return (
       <>
@@ -64,9 +90,9 @@ function FormLogin({onClick}: Props) {
                       <Form.Control type="password" {...register('password')} className="border border-b-gray-500 rounded"/>
                   </Col>
               </Form.Group>
-              <div className="w-full flex flex-col items-center">
-              <Button type="submit" className="!bg-[#16ae63] border-0 rounded w-full"><p className="mb-0 font-bold">Entrar</p></Button>
-              </div>
+               <div className="w-full flex flex-col items-center">
+                            {loading ? (<Spinner animation="border" variant="success" />) : (<Button type="submit" className="!bg-[#16ae63] border-0 rounded w-full"><p className="mb-0 font-bold">Loguearse</p></Button>)}
+                        </div>
           </Form>
           <p className='text-[#16ae63] mt-2 mb-0 cursor-pointer' onClick={onClick}>¿No tienes cuenta? Registrate</p>
           </div>

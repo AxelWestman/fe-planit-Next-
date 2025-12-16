@@ -43,7 +43,7 @@ function LoginRegister({ }: Props) {
                         transition={{ duration: 0.35 }}
                         className="text-center w-full"
                     >
-                        <FormLogin onClick={formRegistro} />
+                        <FormLogin onClick={formRegistro} funciones={{mensajeError: mensajeErrorFunction, toggleShowB  }}/>
                     </motion.div>
                 ) : (
                     <motion.div
