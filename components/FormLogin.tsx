@@ -2,23 +2,22 @@
 
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { useForm } from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod'
 import {loginSchema} from '../validations/loginSchema';
-import Card from 'react-bootstrap/Card';
 import { useRouter } from "next/navigation";
-import Carousel from '@/components/Carousel'
 
-type Props = {}
+type Props = {
+    onClick: () => void;
+}
 
 type Login = {
     email: string,
     password: string
 }
 
-function FormLogin({}: Props) {
+function FormLogin({onClick}: Props) {
 
     const {register, handleSubmit, formState: {errors}} = useForm<Login>({
         resolver: zodResolver(loginSchema) 
@@ -36,7 +35,7 @@ function FormLogin({}: Props) {
 
   return (
       <>
-      <div className="flex flex-col w-full items-center justify-center lg:w-1/2">
+      <div className="flex flex-col items-center justify-center">
        <div className="flex items-center justify-center w-full h-14 mb-2.5">
         <div className='bg-[#16ae63] w-10 h-10 flex items-center justify-center p-2 m-2 rounded'>
             <i className="bi bi-geo-alt text-white text-2xl"></i>
@@ -65,9 +64,11 @@ function FormLogin({}: Props) {
                       <Form.Control type="password" {...register('password')} className="border border-b-gray-500 rounded"/>
                   </Col>
               </Form.Group>
-              <Button type="submit" className="!bg-[#16ae63] border-0 rounded"><p className="mb-0 font-bold">Entrar</p></Button>
+              <div className="w-full flex flex-col items-center">
+              <Button type="submit" className="!bg-[#16ae63] border-0 rounded w-full"><p className="mb-0 font-bold">Entrar</p></Button>
+              </div>
           </Form>
-          <p className='text-[#16ae63] mt-2 mb-0'>¿No tienes cuenta? Registrate</p>
+          <p className='text-[#16ae63] mt-2 mb-0 cursor-pointer' onClick={onClick}>¿No tienes cuenta? Registrate</p>
           </div>
           </div>
       </>
