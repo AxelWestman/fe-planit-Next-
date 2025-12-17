@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuthStore } from '@/app/Stores/auth.store';
 
 type LoginData = {
   email: string;
@@ -11,6 +12,7 @@ type LoginResult<T = any> = {
 };
 
 export function useLogin() {
+  const { setAuth } = useAuthStore();
   const [error, setError] = useState<string | null>(null);
 
   const loginHook = async (datos: LoginData): Promise<LoginResult> => {
@@ -33,6 +35,11 @@ export function useLogin() {
       }
 
       const result = await response.json();
+      
+       if (result?.token && result?.userId) {
+        setAuth(result.token, result.userId);
+      }
+      
       return { data: result, error: null };
     } catch (err: any) {
       const message = err.message || 'Error inesperado';
