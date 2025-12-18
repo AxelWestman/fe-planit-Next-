@@ -24,7 +24,7 @@ function FormLogin({}: Props) {
     const navigate = useNavigate();
 
     const logueo = (datos: any) => {
-        console.log("Ha pasadoo el logueo", datos)
+        console.log("Ha pasado el logueo", datos)
         //Aca se haría el llamado a la bd para verificar los datos y salta al home o dashboard
         navigate('/dashboard', { replace: true });
     }
