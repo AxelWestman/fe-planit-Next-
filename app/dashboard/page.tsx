@@ -1,5 +1,7 @@
 'use client'
 import React from 'react';
+import Link from "next/link";
+import NavigationBar from "../../components/Navbar";
 
 const Dashboard = () => {
   const [backgroundImage, setBackgroundImage] = React.useState<string | null>(null);
@@ -54,31 +56,7 @@ const Dashboard = () => {
       {/* Content Wrapper */}
       <div className="relative z-10">
       {/* Navbar */}
-      <nav className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-500 text-2xl">▶</span>
-            <span className="text-xl font-semibold text-gray-800">Planit</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <label className="cursor-pointer text-gray-600 hover:text-gray-800 flex items-center gap-2">
-              <span className="text-sm font-medium">🖼️ Fondo</span>
-              <input 
-                type="file" 
-                accept="image/*" 
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-            </label>
-            <button className="text-gray-600 hover:text-gray-800">
-              <span className="text-xl">☰</span>
-            </button>
-            <button className="text-gray-600 hover:text-gray-800">
-              <span className="text-xl">👤</span>
-            </button>
-          </div>
-        </div>
-      </nav>
+         <NavigationBar isLoggedIn={true} />
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">

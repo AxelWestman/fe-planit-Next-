@@ -18,7 +18,7 @@ export default function FloatingChat() {
     <>
       {/* Chat window */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-xl flex flex-col border">
+        <div className="fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl rounded-xl flex flex-col border z-50">
           <div className="p-3 border-b font-semibold">
             Asistente IA
           </div>

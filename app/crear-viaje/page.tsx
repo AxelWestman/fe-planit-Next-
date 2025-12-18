@@ -3,17 +3,16 @@
 import React from "react";
 import Link from "next/link";
 import NavigationBar from "../../components/Navbar";
-import FloatingChat from "../../components/ChatIA";
-import Footer from "@/components/Footer";
+import FloatingChat from "../../components/ChatIA"; // 👈 Importa tu chat IA
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="relative min-h-screen">
       {/* Navbar */}
       <NavigationBar isLoggedIn={false} />
 
       {/* Hero */}
-      <section className="relative w-full flex-1 flex items-center justify-center">
+      <section className="relative w-full min-h-screen flex items-center justify-center">
         {/* Fondo */}
         <div className="absolute inset-0 z-0">
           <img
@@ -25,22 +24,11 @@ export default function Home() {
         </div>
 
         {/* Contenido */}
-        <div className="relative z-10 max-w-6xl mx-auto text-center mt-20 px-4">
-        
-
-          {/* Video ancho tipo carrusel */}
-          <div className="w-full mb-16">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full aspect-video object-cover rounded-lg shadow-lg"
-            >
-              <source src="/video1.mp4" type="video/mp4" />
-              Tu navegador no soporta el video.
-            </video>
-          </div>
+        <div className="relative z-10 max-w-5xl mx-auto text-center mt-20">
+          <h2 className="text-lg md:text-xl text-gray-700 mb-8 mx-auto">
+            Dejá que la IA cree itinerarios personalizados según tu estilo,
+            presupuesto y preferencias.
+          </h2>
 
           {/* Botones */}
           <div className="flex items-center justify-center gap-4 mb-16">
@@ -58,11 +46,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Chat flotante */}
+      {/* Chat flotante 👇 */}
       <FloatingChat />
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }
