@@ -1,5 +1,6 @@
 'use client'
 import React from 'react';
+import GeneratePdfButton from "@/components/GeneratePdfButton";
 
 const Dashboard = () => {
   const [backgroundImage, setBackgroundImage] = React.useState<string | null>(null);
@@ -177,9 +178,7 @@ const Dashboard = () => {
               <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
                 + Generar Nuevo Itinerario
               </button>
-              <button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
-                📄 Exportar PDF
-              </button>
+              <GeneratePdfButton />
               <button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
                 🔗 Compartir
               </button>
