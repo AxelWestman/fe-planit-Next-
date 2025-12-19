@@ -41,9 +41,9 @@ function TripInfoCard({}: Props) {
         </div>
       </div>
 
-      <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-xl transition-colors">
+      {/* <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-xl transition-colors">
         Ver Itinerario →
-      </button>
+      </button> */}
     </div>
   );
 }

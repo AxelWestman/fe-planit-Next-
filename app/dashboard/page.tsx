@@ -100,7 +100,7 @@ const Dashboard = () => {
   <div className="relative z-10 flex-1 flex flex-col">
     {/* Condicional: si hay itinerary, renderizamos las cards */}
     {verDashboard ? (
-      <div className="max-w-7xl mx-auto px-6 py-8 flex-1 flex flex-col">
+      <div className="max-w-7xl mx-auto px-6 py-8 flex-1 flex flex-col justify-center items-center">
         <div className="grid grid-cols-2 gap-6">
           {/* Left Side */}
           <div className="space-y-6 flex flex-col">
@@ -124,9 +124,6 @@ const Dashboard = () => {
               <TravelFormModal onSubmit={handleTravelSubmit} />
               {(creating || generating) && <p>Procesando...</p>}
               <GeneratePdfButton />
-              <button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
-                🔗 Compartir
-              </button>
             </div>
           </div>
 
@@ -147,9 +144,6 @@ const Dashboard = () => {
           <TravelFormModal onSubmit={handleTravelSubmit} />
           {(creating || generating) && <p>Procesando...</p>}
           { verDashboard ? (<GeneratePdfButton />) : null }
-          {/* { verDashboard ? (<button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
-            🔗 Compartir
-          </button>) : null } */}
         </div>
       </div>
     )}
