@@ -21,7 +21,7 @@ export default function useUserTravels() {
     setError(null);
 
     try {
-      const response = await fetch(`http://localhost:5290/api/travels/user/${userId}`, {
+      const response = await fetch(`/api/travels/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

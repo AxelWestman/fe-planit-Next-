@@ -34,7 +34,7 @@ export default function useCreateTravel() {
         ...travelData,
       };
 
-      const response = await fetch('http://localhost:5290/api/travels', {
+      const response = await fetch('/api/travels', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

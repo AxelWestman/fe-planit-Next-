@@ -32,8 +32,10 @@ export function useAiChat() {
 
     setIsLoading(true);
 
+    //const res = await fetch(`http://localhost:5290/api/ai/chat?pregunta=${encodeURIComponent(prompt)}`,  ejemplo viejo
+
     try {
-      const res = await fetch(`http://localhost:5290/api/ai/chat?pregunta=${encodeURIComponent(prompt)}`, 
+      const res = await fetch(`/api/ai/chat?pregunta=${encodeURIComponent(prompt)}`, 
       {
         method: "POST",
         headers: {

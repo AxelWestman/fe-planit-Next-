@@ -18,7 +18,7 @@ export default function useGenerateItinerary() {
     setSuccess(false);
 
     try {
-      const response = await fetch(`http://localhost:5290/api/travels/${travelId}/generate`, {
+      const response = await fetch(`/api/travels/${travelId}/generate`, {
         method: 'POST', // o GET, según tu API
         headers: {
           "Content-Type": "application/json",
