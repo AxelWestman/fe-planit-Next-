@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from "next/link";
 import NavigationBar from "../../components/Navbar";
 import GeneratePdfButton from "@/components/GeneratePdfButton";
@@ -14,22 +14,34 @@ import BudgetCard from '@/components/BudgetCard';
 import { set } from 'zod';
 import TravelHistory from '@/components/TravelHistory';
 import TravelMap from '@/components/TravelMap';
+import LoadingTravel from '@/components/LoadingTravel';
+import { useRouter } from 'next/navigation';
 
 const Dashboard = () => {
-
+  const router = useRouter();
   const { createTravel, loading: creating, error: createError, success: createSuccess } = useCreateTravel();
   const { generateItinerary, loading: generating, error: generateError, success: generateSuccess } = useGenerateItinerary();
 
    const setDays = useAuthStore((state) => state.setDays);
   const itinerary = useAuthStore((state) => state.itinerary);
+  const { token } = useAuthStore();
+
+   useEffect(() => {
+    // Si no hay token, redirigimos al login
+    if (!token) {
+      router.push('/login'); // Redirige al login
+    }
+  }, [token, router]); // Dependemos del token, por si cambia
 
   const [verDashboard, setVerDashboard] = React.useState(false);
+  const [setearSpinner, setSetearSpinner] = React.useState(false);
 
   const handleSaveItinerary = (itineraryData) => {
     setDays(itineraryData.days);
   };
     
     const handleTravelSubmit = async (data: any) => {
+      setSetearSpinner(true);
     setVerDashboard(false);
     const travelCreated = await createTravel(data);
 
@@ -41,7 +53,11 @@ const Dashboard = () => {
         console.log('Itinerario generado:', itinerary);
         handleSaveItinerary(itinerary);
         setVerDashboard(true);
+        setSetearSpinner(false);
         // Aquí puedes hacer lo que necesites con el resultado del itinerario
+      } else {
+        console.error('Error al generar el itinerario');
+        setSetearSpinner(false);
       }
     }
   };
@@ -123,8 +139,10 @@ const Dashboard = () => {
 
             {/* Action Buttons */}
             <div className="flex gap-3 mt-4">
-              <TravelHistory />
-              <TravelFormModal onSubmit={handleTravelSubmit} />
+              {/* {(creating || generating) && <LoadingTravel />} */}
+               {(creating || generating) && <LoadingTravel isLoading={setearSpinner} />}
+              { !setearSpinner ? (<TravelHistory />) : null }
+              { !setearSpinner ? (<TravelFormModal onSubmit={handleTravelSubmit} />) : null }
               {(creating || generating) && <p>Procesando...</p>}
               <GeneratePdfButton />
             </div>
@@ -141,11 +159,11 @@ const Dashboard = () => {
       </div>
     ) : (
       // Si no hay itinerary, mostramos solo los botones centrados
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center">
+        {(creating || generating) && <LoadingTravel isLoading={setearSpinner} />}
         <div className="flex gap-3">
-          <TravelHistory />
-          <TravelFormModal onSubmit={handleTravelSubmit} />
-          {(creating || generating) && <p>Procesando...</p>}
+          { !setearSpinner ? (<TravelHistory />) : null }
+          { !setearSpinner ? (<TravelFormModal onSubmit={handleTravelSubmit} />) : null }
           { verDashboard ? (<GeneratePdfButton />) : null }
         </div>
       </div>

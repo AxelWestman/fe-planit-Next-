@@ -39,9 +39,9 @@ export default function Home() {
               </button>
             </Link>
 
-            <button className="px-8 py-4 bg-white text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
+            {/* <button className="px-8 py-4 bg-white text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
               Ver ejemplo
-            </button>
+            </button> */}
           </div>
         </div>
       </section>

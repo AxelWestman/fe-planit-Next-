@@ -48,7 +48,7 @@ const NavigationBar = ({ isLoggedIn }) => {
                 <Nav.Link as={Link} href="/login">Registrarse</Nav.Link>
               </>
             ) : (
-              <Nav.Link as={Link} href="/login" onClick={logout}>Cerrar sesión</Nav.Link>
+              <Nav.Link as={Link} href="/home" onClick={logout}>Cerrar sesión</Nav.Link>
             )}
           </Nav>
         </Navbar.Collapse>

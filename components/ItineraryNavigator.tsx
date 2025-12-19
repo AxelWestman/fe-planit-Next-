@@ -49,21 +49,21 @@ const ItineraryNavigator = () => {
 
       <ItineraryCard day={itinerary.days?.[currentDayIndex]} />
 
-      <div className="mt-4 flex justify-between">
+      <div className="mt-4 flex gap-4 w-full justify-center">
         <button
           onClick={prevDay}
           disabled={currentDayIndex === 0}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+          className="px-4 py-2 w-2.5 bg-gray-300 rounded disabled:opacity-50 flex items-center justify-center"
         >
-          &lt; Día anterior
+          🡨
         </button>
 
         <button
           onClick={nextDay}
           disabled={currentDayIndex === totalDays! - 1}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+          className="px-4 py-2 w-2.5 bg-gray-300 rounded disabled:opacity-50 flex items-center justify-center"
         >
-          Día siguiente &gt;
+         🡪
         </button>
       </div>
     </div>

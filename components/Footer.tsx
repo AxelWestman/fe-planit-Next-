@@ -23,13 +23,13 @@ export default function Footer() {
           {/* Navegación */}
           <Col xs={12} md={4} className="mb-4 md:mb-0 flex justify-center">
             <nav className="flex flex-col md:flex-row gap-2 md:gap-6 text-center md:text-left">
-              <Link href="/crear-viaje" className="hover:underline">
+              <Link href="/crear-viaje" className="!no-underline">
                 Crear viaje
               </Link>
-              <Link href="/login" className="hover:underline">
+              <Link href="/login" className="!no-underline">
                 Login
               </Link>
-              <Link href="/register" className="hover:underline">
+              <Link href="/register" className="!no-underline">
                 Registro
               </Link>
             </nav>
@@ -37,16 +37,34 @@ export default function Footer() {
 
           {/* Redes sociales */}
           <Col xs={12} md={4} className="flex justify-center md:justify-end gap-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              <i className="bi bi-facebook fs-5 hover:text-gray-300"></i>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <i className="bi bi-instagram fs-5 hover:text-gray-300"></i>
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <i className="bi bi-twitter fs-5 hover:text-gray-300"></i>
-            </a>
-          </Col>
+  <a
+    href="https://facebook.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white no-underline hover:text-gray-300"
+  >
+    <i className="bi bi-facebook fs-5"></i>
+  </a>
+
+  <a
+    href="https://instagram.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white no-underline hover:text-gray-300"
+  >
+    <i className="bi bi-instagram fs-5"></i>
+  </a>
+
+  <a
+    href="https://twitter.com"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-white no-underline hover:text-gray-300"
+  >
+    <i className="bi bi-twitter fs-5"></i>
+  </a>
+</Col>
+
         </Row>
 
         {/* Derechos reservados */}

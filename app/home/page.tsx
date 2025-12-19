@@ -44,14 +44,15 @@ export default function Home() {
 
           {/* Botones */}
           <div className="flex items-center justify-center gap-4 mb-16">
-            <Link href="/login">
-              <button className="px-8 py-4 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center gap-2">
-                Generar itinerario
-                <span aria-hidden className="ml-1">→</span>
-              </button>
-            </Link>
+            <Link
+  href="/login"
+  className="px-8 py-4 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center gap-2 !no-underline !text-white"
+>
+  Generar itinerario
+  <span aria-hidden className="ml-1">→</span>
+</Link>
 
-            <button className="px-8 py-4 bg-white text-gray-900 rounded-lg hover:bg-gray-50 transition-colors">
+            <button className="px-8 py-4 bg-white text-gray-900 !rounded-lg hover:bg-gray-50 transition-colors">
               Ver ejemplo
             </button>
           </div>
