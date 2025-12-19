@@ -4,7 +4,11 @@ import { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 
 
-export default function TravelFormModal({ onSubmit }) {
+export default function TravelFormModal({
+  onSubmit,
+}: {
+  onSubmit: any;
+}) {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     destination: '',

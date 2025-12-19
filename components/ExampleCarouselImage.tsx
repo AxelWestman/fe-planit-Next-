@@ -1,7 +1,13 @@
 'use client';
 import Image from 'next/image';
 
-export default function ExampleCarouselImage({ src, alt }) {
+export default function ExampleCarouselImage({
+  src,
+  alt,
+}: {
+  src: any;
+  alt: any;
+}) {
   return (
     <div
       style={{

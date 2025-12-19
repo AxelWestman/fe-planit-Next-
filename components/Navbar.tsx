@@ -4,7 +4,11 @@ import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import Link from "next/link";
 import { useAuthStore } from "@/app/Stores/auth.store";
 
-const NavigationBar = ({ isLoggedIn }) => {
+const NavigationBar = ({
+  isLoggedIn,
+}: {
+  isLoggedIn: any;
+}) => {
 
   const { logout } = useAuthStore(); 
 

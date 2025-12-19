@@ -14,7 +14,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { useRegister } from '@/hooks/useRegister';
 
 type Props = {
-    funciones: {
+    funciones?: {
     toggleShowA: () => void;
     mensajeError: (error: string) => void;
     toggleShowB: () => void;
@@ -48,16 +48,16 @@ function FormRegister({ funciones }: Props) {
 
     if (error || !data) {
       console.log('Error de registro:', error);
-      funciones.mensajeError(error!);
-      funciones.toggleShowB(); // mostrar error
+      funciones?.mensajeError(error!);
+      funciones?.toggleShowB(); // mostrar error
       setLoading(false);
       return;
     }
 
     console.log('Registro OK', data);
 
-    funciones.toggleShowA();
-    funciones.formLogin();
+    funciones?.toggleShowA();
+    funciones?.formLogin();
     setLoading(false);
   }, 2000);
 };
@@ -103,7 +103,7 @@ function FormRegister({ funciones }: Props) {
                     <p
                         className={`text-[#16ae63] mt-2 mb-0 cursor-pointer ${loading ? "hidden" : "block"
                             }`}
-                        onClick={funciones.formLogin}
+                        onClick={funciones?.formLogin}
                     >
                         ¿Ya tienes cuenta? Logueate
                     </p>

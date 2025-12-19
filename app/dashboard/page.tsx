@@ -36,7 +36,7 @@ const Dashboard = () => {
   const [verDashboard, setVerDashboard] = React.useState(false);
   const [setearSpinner, setSetearSpinner] = React.useState(false);
 
-  const handleSaveItinerary = (itineraryData) => {
+  const handleSaveItinerary = (itineraryData: any) => {
     setDays(itineraryData.days);
   };
     

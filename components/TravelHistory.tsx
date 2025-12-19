@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import useUserTravels from '@/hooks/useUserTravels';
 
 type Props = {
-  onSelectTravel: (travel: any) => void;
+  onSelectTravel?: (travel: any) => void;
 };
 
 const TravelHistory = ({ onSelectTravel }: Props) => {
@@ -14,7 +14,7 @@ const TravelHistory = ({ onSelectTravel }: Props) => {
   const { travels, loading, error } = useUserTravels();
 
   const handleSelect = (travel: any) => {
-    onSelectTravel(travel);
+    onSelectTravel!(travel);
     setShow(false);
   };
 

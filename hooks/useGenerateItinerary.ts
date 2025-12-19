@@ -11,7 +11,7 @@ export default function useGenerateItinerary() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const generateItinerary = async (travelId) => {
+  const generateItinerary = async (travelId : any) => {
     
     setLoading(true);
     setError(null);

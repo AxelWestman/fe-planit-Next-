@@ -52,7 +52,7 @@ export default function PdfButton() {
           style: "subheader",
           margin: [0, 10, 0, 5],
         },
-        ...day.activities.map((activity) => ({
+        ...day.activities.map((activity : any) => ({
           margin: [10, 4, 0, 4],
           stack: [
             {
