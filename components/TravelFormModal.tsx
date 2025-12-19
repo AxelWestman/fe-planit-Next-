@@ -32,9 +32,22 @@ export default function TravelFormModal({ onSubmit }) {
 
   return (
     <>
-      <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors text-sm" onClick={() => setShow(true)} >
-                + Generar Nuevo Itinerario
-      </button> 
+      <Button
+  onClick={() => setShow(true)}
+  className="flex-1 rounded-xl py-3 text-sm font-semibold shadow-sm"
+  style={{
+    backgroundColor: '#10b981', // emerald-500
+    borderColor: '#10b981',
+  }}
+  onMouseOver={(e) =>
+    (e.currentTarget.style.backgroundColor = '#059669') // emerald-600
+  }
+  onMouseOut={(e) =>
+    (e.currentTarget.style.backgroundColor = '#10b981')
+  }
+>
+  ➕ Generar nuevo itinerario
+</Button>
 
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>

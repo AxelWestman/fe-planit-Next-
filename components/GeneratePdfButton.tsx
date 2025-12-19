@@ -7,15 +7,34 @@ export default function PdfButton() {
 
   return (
     <button
-      className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm"
-      onClick={() =>
-        createPdf({
-          content: [{ text: "probando probando probandooooooo" }],
-        })
-      }
-    >
-      📄 Exportar PDF
-    </button>
+  onClick={() =>
+    createPdf({
+      content: [{ text: "probando probando probandooooooo" }],
+    })
+  }
+  className="
+    flex-1
+    rounded-xl
+    px-4
+    py-3
+    text-sm
+    font-semibold
+    bg-white
+    text-gray-800
+    border
+    border-gray-200
+    shadow-sm
+    hover:bg-gray-50
+    transition-colors
+    flex
+    items-center
+    justify-center
+    gap-2
+  "
+>
+  📄 Exportar PDF
+</button>
+
   );
 }
 

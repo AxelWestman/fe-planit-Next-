@@ -2,20 +2,31 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type Itinerary = {
-  trip_title: string;
-  days: any[];
+type ItinerarySummary = {
+  trip_title?: string;
+  destination?: string;
+  durationDays?: number;
+  totalActivities?: number;
+  totalBudget?: number;
+  days?: any[];
 };
 
 type AuthState = {
   token: string | null;
   userId: string | null;
-  itinerary: Itinerary | null;
+  itinerary: ItinerarySummary;
 
   setAuth: (token: string, userId: string) => void;
   logout: () => void;
 
-  setItinerary: (itinerary: Itinerary) => void;
+  // setters separados
+  setTripTitle: (trip_title: string) => void;
+  setDestination: (destination: string) => void;
+  setDurationDays: (duration: number) => void;
+  setTotalActivities: (activities: number) => void;
+  setTotalBudget: (budget: number) => void;
+  setDays: (days: any[]) => void;
+
   clearItinerary: () => void;
 };
 
@@ -24,19 +35,28 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       token: null,
       userId: null,
-      itinerary: null,
+      itinerary: {},
 
       setAuth: (token, userId) => set({ token, userId }),
+      logout: () => set({ token: null, userId: null, itinerary: {} }),
 
-      logout: () => set({ token: null, userId: null, itinerary: null }),
+      setTripTitle: (trip_title) =>
+        set((state) => ({ itinerary: { ...state.itinerary, trip_title } })),
+      setDestination: (destination) =>
+        set((state) => ({ itinerary: { ...state.itinerary, destination } })),
+      setDurationDays: (durationDays) =>
+        set((state) => ({ itinerary: { ...state.itinerary, durationDays } })),
+      setTotalActivities: (totalActivities) =>
+        set((state) => ({ itinerary: { ...state.itinerary, totalActivities } })),
+      setTotalBudget: (totalBudget) =>
+        set((state) => ({ itinerary: { ...state.itinerary, totalBudget } })),
+      setDays: (days) =>
+        set((state) => ({ itinerary: { ...state.itinerary, days } })),
 
-      setItinerary: (itinerary) => set({ itinerary }),
-
-      clearItinerary: () => set({ itinerary: null }),
+      clearItinerary: () => set({ itinerary: {} }),
     }),
     {
-      name: 'auth-storage', // nombre de la key en localStorage
-      // si quieres separar puedes usar otro name aquí, ejemplo: 'auth-itinerary-storage'
+      name: 'auth-storage',
     }
   )
 );

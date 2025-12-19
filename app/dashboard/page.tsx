@@ -9,20 +9,27 @@ import useGenerateItinerary from '@/hooks/useGenerateItinerary';
 import { useAuthStore } from "@/app/Stores/auth.store";
 import ItineraryCard from '@/components/ItineraryCard';
 import ItineraryNavigator from '@/components/ItineraryNavigator';
+import TripInfoCard from '@/components/TripInfoCard';
+import BudgetCard from '@/components/BudgetCard';
+import { set } from 'zod';
+import TravelHistory from '@/components/TravelHistory';
 
 const Dashboard = () => {
 
   const { createTravel, loading: creating, error: createError, success: createSuccess } = useCreateTravel();
   const { generateItinerary, loading: generating, error: generateError, success: generateSuccess } = useGenerateItinerary();
 
-   const setItinerary = useAuthStore((state) => state.setItinerary);
+   const setDays = useAuthStore((state) => state.setDays);
   const itinerary = useAuthStore((state) => state.itinerary);
 
+  const [verDashboard, setVerDashboard] = React.useState(false);
+
   const handleSaveItinerary = (itineraryData) => {
-    setItinerary(itineraryData);
+    setDays(itineraryData.days);
   };
     
-    const handleTravelSubmit = async (data) => {
+    const handleTravelSubmit = async (data: any) => {
+    setVerDashboard(false);
     const travelCreated = await createTravel(data);
 
     if (travelCreated && travelCreated.id) {
@@ -32,6 +39,7 @@ const Dashboard = () => {
       if (itinerary) {
         console.log('Itinerario generado:', itinerary);
         handleSaveItinerary(itinerary);
+        setVerDashboard(true);
         // Aquí puedes hacer lo que necesites con el resultado del itinerario
       }
     }
@@ -71,128 +79,50 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 relative">
-      {/* Background Image */}
-      {backgroundImage && (
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.15
-          }}
-        ></div>
-      )}
+    <>
+    <NavigationBar isLoggedIn={true}/>
+   <div className="min-h-screen bg-gray-50 relative flex flex-col items-center justify-center">
+  {/* Background Image */}
+  {backgroundImage && (
+    <div
+      className="absolute inset-0 z-0"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        opacity: 0.15,
+      }}
+    ></div>
+  )}
 
-      {/* Content Wrapper */}
-      <div className="relative z-10">
-      {/* Navbar */}
-         <NavigationBar isLoggedIn={true} />
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+  {/* Content Wrapper */}
+  <div className="relative z-10 flex-1 flex flex-col">
+    {/* Condicional: si hay itinerary, renderizamos las cards */}
+    {verDashboard ? (
+      <div className="max-w-7xl mx-auto px-6 py-8 flex-1 flex flex-col">
         <div className="grid grid-cols-2 gap-6">
           {/* Left Side */}
-          <div className="space-y-6">
-            {/* Trip Info Card */}
-            <div className="bg-white rounded-2xl shadow-sm p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Próximo Viaje</p>
-                  <h2 className="text-xl font-semibold text-gray-900">{currentTrip.destination}</h2>
-                </div>
-                <div className="bg-emerald-100 rounded-full p-3">
-                  <span className="text-xl">📍</span>
-                </div>
-              </div>
+          <div className="space-y-6 flex flex-col">
+            <div className="flex-1 space-y-6">
+              {/* Trip Info Card */}
+              <TripInfoCard />
 
-              <div className="flex items-center gap-2 text-gray-600 text-sm mb-6">
-                <span>📅</span>
-                <span>{currentTrip.dates}</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Duración</p>
-                  <p className="font-semibold text-gray-900">{currentTrip.duration}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-gray-500 mb-1">Actividades planeadas</p>
-                  <p className="font-semibold text-gray-900">{currentTrip.activities}</p>
-                </div>
-              </div>
-
-              <button className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 rounded-xl transition-colors">
-                Ver Itinerario →
-              </button>
-            </div>
-
-            {/* Map Card */}
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden" style={{ height: '420px' }}>
-              <div className="relative w-full h-full bg-gradient-to-br from-emerald-50 to-teal-50">
-                {/* Grid lines */}
-                <svg className="absolute inset-0 w-full h-full opacity-20">
-                  <defs>
-                    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#10b981" strokeWidth="0.5"/>
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#grid)" />
-                </svg>
-
-                {/* Map Pins */}
-                <div className="absolute" style={{ top: '20%', left: '35%' }}>
-                  <div className="w-8 h-8 bg-emerald-500 rounded-full relative shadow-lg animate-pulse">
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-emerald-500"></div>
-                  </div>
-                </div>
-                <div className="absolute" style={{ top: '45%', right: '28%' }}>
-                  <div className="w-8 h-8 bg-emerald-500 rounded-full relative shadow-lg">
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-emerald-500"></div>
-                  </div>
-                </div>
-                <div className="absolute" style={{ top: '35%', left: '25%' }}>
-                  <div className="w-8 h-8 bg-emerald-500 rounded-full relative shadow-lg">
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-emerald-500"></div>
-                  </div>
-                </div>
-                <div className="absolute" style={{ bottom: '25%', right: '35%' }}>
-                  <div className="w-8 h-8 bg-emerald-500 rounded-full relative shadow-lg">
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-emerald-500"></div>
-                  </div>
-                </div>
-
-                {/* Zoom controls */}
-                <div className="absolute top-4 right-4 bg-white rounded-lg shadow-md overflow-hidden">
-                  <button className="block px-4 py-2 hover:bg-gray-50 border-b border-gray-200">+</button>
-                  <button className="block px-4 py-2 hover:bg-gray-50">−</button>
-                </div>
-
-                {/* Compass */}
-                <div className="absolute top-4 left-4 bg-white rounded-full p-2 shadow-md">
-                  <span className="text-lg">🧭</span>
-                </div>
-
-                {/* Location Label */}
-                <div className="absolute bottom-6 left-6 bg-white rounded-lg shadow-lg px-4 py-3">
-                  <p className="text-xs text-gray-500 mb-1">Ubicación Actual</p>
-                  <p className="font-semibold text-gray-900">Kyoto, Japón</p>
+              {/* Map Card */}
+              <div
+                className="bg-white rounded-2xl shadow-sm overflow-hidden"
+                style={{ height: '420px' }}
+              >
+                <div className="relative w-full h-full bg-gradient-to-br from-emerald-50 to-teal-50">
+                  {/* Aquí va el contenido del mapa, pines, etc. */}
                 </div>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-3">
-              {/* <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
-                + Generar Nuevo Itinerario
-              </button> */}
-              {/* <TravelFormModal onSubmit={handleTravelSubmit} /> */}
-              
-      <TravelFormModal onSubmit={handleTravelSubmit} />
-      {(creating || generating) && <p>Procesando...</p>}
-      
+            <div className="flex gap-3 mt-4">
+              <TravelFormModal onSubmit={handleTravelSubmit} />
+              {(creating || generating) && <p>Procesando...</p>}
               <GeneratePdfButton />
               <button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
                 🔗 Compartir
@@ -201,84 +131,32 @@ const Dashboard = () => {
           </div>
 
           {/* Right Side */}
-          <div className="space-y-6">
-            {/* Budget Card */}
-            <div className="bg-white rounded-2xl shadow-sm p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Presupuesto</p>
-                  <h2 className="text-xl font-semibold text-gray-900">
-                    ${currentTrip.budget.current} / ${currentTrip.budget.total}
-                  </h2>
-                </div>
-                <div className="bg-emerald-100 rounded-full p-3">
-                  <span className="text-xl">💰</span>
-                </div>
-              </div>
-
-              {/* Progress Circle */}
-              <div className="flex items-center gap-6 mb-6">
-                <div className="relative w-32 h-32">
-                  <svg className="w-32 h-32 transform -rotate-90">
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
-                      stroke="#e5e7eb"
-                      strokeWidth="12"
-                      fill="none"
-                    />
-                    <circle
-                      cx="64"
-                      cy="64"
-                      r="56"
-                      stroke="#10b981"
-                      strokeWidth="12"
-                      fill="none"
-                      strokeDasharray={`${2 * Math.PI * 56}`}
-                      strokeDashoffset={`${2 * Math.PI * 56 * (1 - currentTrip.progress / 100)}`}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-900">{currentTrip.progress}%</span>
-                  </div>
-                </div>
-
-                <div className="flex-1 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Progreso</span>
-                    <span className="text-sm font-semibold text-gray-900">{currentTrip.progress}%</span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Alojamiento</span>
-                      <span className="text-sm font-semibold text-gray-900">${currentTrip.expenses.alojamiento}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Transporte</span>
-                      <span className="text-sm font-semibold text-gray-900">${currentTrip.expenses.transporte}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Comida</span>
-                      <span className="text-sm font-semibold text-gray-900">${currentTrip.expenses.comida}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="space-y-6 flex flex-col">
+            <div className="flex-1 space-y-6">
+              <BudgetCard />
+              <ItineraryNavigator />
             </div>
-
-              {itinerary ? (
-        <ItineraryNavigator itineraryData={itinerary} />
-      ) : (
-        <p>Creando su itinerario...</p>
-      ) }
-
           </div>
         </div>
       </div>
+    ) : (
+      // Si no hay itinerary, mostramos solo los botones centrados
+      <div className="flex-1 flex items-center justify-center">
+        <div className="flex gap-3">
+          <TravelHistory />
+          <TravelFormModal onSubmit={handleTravelSubmit} />
+          {(creating || generating) && <p>Procesando...</p>}
+          { verDashboard ? (<GeneratePdfButton />) : null }
+          {/* { verDashboard ? (<button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
+            🔗 Compartir
+          </button>) : null } */}
+        </div>
       </div>
-    </div>
+    )}
+  </div>
+</div>
+</>
+
   );
 };
 

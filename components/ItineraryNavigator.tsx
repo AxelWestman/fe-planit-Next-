@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ItineraryCard from './ItineraryCard';
+import { useAuthStore } from '@/app/Stores/auth.store';
 
 type Activity = {
   time: string;
@@ -26,24 +27,27 @@ type Props = {
   itineraryData: ItineraryData;
 };
 
-const ItineraryNavigator = ({ itineraryData }: Props) => {
+const ItineraryNavigator = () => {
+
+      const { itinerary } = useAuthStore();
+
   const [currentDayIndex, setCurrentDayIndex] = useState(0);
 
-  const totalDays = itineraryData.days.length;
+  const totalDays = itinerary.days?.length;
 
   const prevDay = () => {
     setCurrentDayIndex((index) => (index > 0 ? index - 1 : index));
   };
 
   const nextDay = () => {
-    setCurrentDayIndex((index) => (index < totalDays - 1 ? index + 1 : index));
+    setCurrentDayIndex((index) => (index < totalDays! - 1 ? index + 1 : index));
   };
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">{itineraryData.trip_title}</h2>
+      <h2 className="text-2xl font-bold mb-4">{itinerary.trip_title}</h2>
 
-      <ItineraryCard day={itineraryData.days[currentDayIndex]} />
+      <ItineraryCard day={itinerary.days?.[currentDayIndex]} />
 
       <div className="mt-4 flex justify-between">
         <button
@@ -56,7 +60,7 @@ const ItineraryNavigator = ({ itineraryData }: Props) => {
 
         <button
           onClick={nextDay}
-          disabled={currentDayIndex === totalDays - 1}
+          disabled={currentDayIndex === totalDays! - 1}
           className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
         >
           Día siguiente &gt;
