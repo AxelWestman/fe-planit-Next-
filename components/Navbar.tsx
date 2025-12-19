@@ -2,8 +2,12 @@
 
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import Link from "next/link";
+import { useAuthStore } from "@/app/Stores/auth.store";
 
 const NavigationBar = ({ isLoggedIn }) => {
+
+  const { logout } = useAuthStore(); 
+
   return (
     <Navbar expand="lg" bg="dark" variant="dark" fixed="top" className="z-50">
       <Container>
@@ -44,7 +48,7 @@ const NavigationBar = ({ isLoggedIn }) => {
                 <Nav.Link as={Link} href="/login">Registrarse</Nav.Link>
               </>
             ) : (
-              <Nav.Link as={Link} href="/logout">Cerrar sesión</Nav.Link>
+              <Nav.Link as={Link} href="/login" onClick={logout}>Cerrar sesión</Nav.Link>
             )}
           </Nav>
         </Navbar.Collapse>

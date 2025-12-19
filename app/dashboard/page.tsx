@@ -5,14 +5,35 @@ import NavigationBar from "../../components/Navbar";
 import GeneratePdfButton from "@/components/GeneratePdfButton";
 import TravelFormModal from "@/components/TravelFormModal";
 import useCreateTravel from '@/hooks/useCreateTravel';
+import useGenerateItinerary from '@/hooks/useGenerateItinerary';
+import { useAuthStore } from "@/app/Stores/auth.store";
+import ItineraryCard from '@/components/ItineraryCard';
+import ItineraryNavigator from '@/components/ItineraryNavigator';
 
 const Dashboard = () => {
 
-   const { createTravel, loading, error, success } = useCreateTravel();
-     const handleTravelSubmit = async (data) => {
-    const result = await createTravel(data);
-    if (result) {
-      console.log('Viaje creado exitosamente:', result);
+  const { createTravel, loading: creating, error: createError, success: createSuccess } = useCreateTravel();
+  const { generateItinerary, loading: generating, error: generateError, success: generateSuccess } = useGenerateItinerary();
+
+   const setItinerary = useAuthStore((state) => state.setItinerary);
+  const itinerary = useAuthStore((state) => state.itinerary);
+
+  const handleSaveItinerary = (itineraryData) => {
+    setItinerary(itineraryData);
+  };
+    
+    const handleTravelSubmit = async (data) => {
+    const travelCreated = await createTravel(data);
+
+    if (travelCreated && travelCreated.id) {
+      console.log('Viaje creado:', travelCreated);
+      const itinerary = await generateItinerary(travelCreated.id);
+
+      if (itinerary) {
+        console.log('Itinerario generado:', itinerary);
+        handleSaveItinerary(itinerary);
+        // Aquí puedes hacer lo que necesites con el resultado del itinerario
+      }
     }
   };
 
@@ -170,6 +191,7 @@ const Dashboard = () => {
               {/* <TravelFormModal onSubmit={handleTravelSubmit} /> */}
               
       <TravelFormModal onSubmit={handleTravelSubmit} />
+      {(creating || generating) && <p>Procesando...</p>}
       
               <GeneratePdfButton />
               <button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
@@ -246,35 +268,12 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Itinerary Card */}
-            <div className="bg-white rounded-2xl shadow-sm p-6">
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">Itinerario del Día</h3>
-                <p className="text-sm text-gray-500">Lunes, 15 de Diciembre</p>
-              </div>
+              {itinerary ? (
+        <ItineraryNavigator itineraryData={itinerary} />
+      ) : (
+        <p>Creando su itinerario...</p>
+      ) }
 
-              <div className="space-y-6">
-                {currentTrip.itinerary.map((item, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white text-lg flex-shrink-0">
-                        {item.icon}
-                      </div>
-                      {index < currentTrip.itinerary.length - 1 && (
-                        <div className="w-0.5 h-16 bg-emerald-200 my-1"></div>
-                      )}
-                    </div>
-                    <div className="flex-1 pb-2">
-                      <div className="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-2">
-                        🕐 {item.time}
-                      </div>
-                      <h4 className="font-semibold text-gray-900 mb-1">{item.title}</h4>
-                      <p className="text-sm text-gray-500">{item.location}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </div>
