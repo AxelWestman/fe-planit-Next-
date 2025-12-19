@@ -13,6 +13,7 @@ import TripInfoCard from '@/components/TripInfoCard';
 import BudgetCard from '@/components/BudgetCard';
 import { set } from 'zod';
 import TravelHistory from '@/components/TravelHistory';
+import TravelMap from '@/components/TravelMap';
 
 const Dashboard = () => {
 
@@ -109,18 +110,20 @@ const Dashboard = () => {
               <TripInfoCard />
 
               {/* Map Card */}
-              <div
+              <TravelMap />
+              {/* <div
                 className="bg-white rounded-2xl shadow-sm overflow-hidden"
                 style={{ height: '420px' }}
               >
                 <div className="relative w-full h-full bg-gradient-to-br from-emerald-50 to-teal-50">
-                  {/* Aquí va el contenido del mapa, pines, etc. */}
+                 
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Action Buttons */}
             <div className="flex gap-3 mt-4">
+              <TravelHistory />
               <TravelFormModal onSubmit={handleTravelSubmit} />
               {(creating || generating) && <p>Procesando...</p>}
               <GeneratePdfButton />
