@@ -10,7 +10,7 @@ import { output } from "framer-motion/client";
 import type { NextConfig } from "next";
 
 const nextConfig = {
-  output: 'export',
+  //output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
   },

@@ -8,21 +8,16 @@ export default function ExampleCarouselImage({
   src: any;
   alt: any;
 }) {
-  return (
-    <div
+   return (
+    <img
+      src={src}
+      alt={alt}
       style={{
-        position: 'relative',
         width: '100%',
         height: '100vh',
-        overflow: 'hidden',
+        objectFit: 'cover',
+        display: 'block',
       }}
-    >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        style={{ objectFit: 'cover' }}
-      />
-    </div>
+    />
   );
 }
