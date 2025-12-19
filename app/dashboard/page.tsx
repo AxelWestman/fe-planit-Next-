@@ -2,8 +2,20 @@
 import React from 'react';
 import Link from "next/link";
 import NavigationBar from "../../components/Navbar";
+import GeneratePdfButton from "@/components/GeneratePdfButton";
+import TravelFormModal from "@/components/TravelFormModal";
+import useCreateTravel from '@/hooks/useCreateTravel';
 
 const Dashboard = () => {
+
+   const { createTravel, loading, error, success } = useCreateTravel();
+     const handleTravelSubmit = async (data) => {
+    const result = await createTravel(data);
+    if (result) {
+      console.log('Viaje creado exitosamente:', result);
+    }
+  };
+
   const [backgroundImage, setBackgroundImage] = React.useState<string | null>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,12 +164,14 @@ const Dashboard = () => {
 
             {/* Action Buttons */}
             <div className="flex gap-3">
-              <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
+              {/* <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
                 + Generar Nuevo Itinerario
-              </button>
-              <button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
-                📄 Exportar PDF
-              </button>
+              </button> */}
+              {/* <TravelFormModal onSubmit={handleTravelSubmit} /> */}
+              
+      <TravelFormModal onSubmit={handleTravelSubmit} />
+      
+              <GeneratePdfButton />
               <button className="bg-white hover:bg-gray-50 border border-gray-200 font-semibold py-3 px-4 rounded-xl transition-colors text-sm">
                 🔗 Compartir
               </button>
