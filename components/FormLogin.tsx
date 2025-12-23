@@ -2,23 +2,32 @@
 
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { useForm } from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod'
 import {loginSchema} from '../validations/loginSchema';
-import Card from 'react-bootstrap/Card';
 import { useRouter } from "next/navigation";
-import Carousel from '@/components/Carousel'
+import { useLogin } from '@/hooks/useLogin';
+import { useState } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
 
-type Props = {}
+type Props = {
+    onClick: () => void;
+    funciones : {
+    mensajeError: (error: string) => void;
+    toggleShowB: () => void;
+    }
+}
 
 type Login = {
     email: string,
     password: string
 }
 
-function FormLogin({}: Props) {
+function FormLogin({funciones, onClick}: Props) {
+    const { loginHook, error } = useLogin();
+
+    const [loading, setLoading] = useState(false)
 
     const {register, handleSubmit, formState: {errors}} = useForm<Login>({
         resolver: zodResolver(loginSchema) 
@@ -27,16 +36,32 @@ function FormLogin({}: Props) {
     //const navigate = useNavigate();
     const router = useRouter();
 
-    const logueo = (datos: any) => {
+    const logueo = async (datos: any) => {
+          setLoading(true);
+        setTimeout(async () => {
+        const { data, error } = await loginHook(datos);
+
         console.log("Ha pasadoo el logueo", datos)
-        //Aca se haría el llamado a la bd para verificar los datos y salta al home o dashboard
-        //navigate('/dashboard', { replace: true });
-        router.push('/home');
-    }
+
+        if (error || !data) {
+            console.log('Error de registro:', error);
+            funciones.mensajeError(error!);
+            funciones.toggleShowB(); // mostrar error
+            setLoading(false);
+            return;
+        }
+        router.push('/dashboard');
+        console.log('Registro OK', data);
+        setLoading(false);
+    }, 2000);
+    //Aca se haría el llamado a la bd para verificar los datos y salta al home o dashboard
+    //navigate('/dashboard', { replace: true });
+    //router.push('/home');
+}
 
   return (
       <>
-      <div className="flex flex-col w-full items-center justify-center lg:w-1/2">
+      <div className="flex flex-col items-center justify-center">
        <div className="flex items-center justify-center w-full h-14 mb-2.5">
         <div className='bg-[#16ae63] w-10 h-10 flex items-center justify-center p-2 m-2 rounded'>
             <i className="bi bi-geo-alt text-white text-2xl"></i>
@@ -65,9 +90,11 @@ function FormLogin({}: Props) {
                       <Form.Control type="password" {...register('password')} className="border border-b-gray-500 rounded"/>
                   </Col>
               </Form.Group>
-              <Button type="submit" className="!bg-[#16ae63] border-0 rounded"><p className="mb-0 font-bold">Entrar</p></Button>
+               <div className="w-full flex flex-col items-center">
+                            {loading ? (<Spinner animation="border" variant="success" />) : (<Button type="submit" className="!bg-[#16ae63] border-0 rounded w-full"><p className="mb-0 font-bold">Loguearse</p></Button>)}
+                        </div>
           </Form>
-          <p className='text-[#16ae63] mt-2 mb-0'>¿No tienes cuenta? Registrate</p>
+          <p className='text-[#16ae63] mt-2 mb-0 cursor-pointer' onClick={onClick}>¿No tienes cuenta? Registrate</p>
           </div>
           </div>
       </>

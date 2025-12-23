@@ -1,22 +1,23 @@
 'use client';
 import Image from 'next/image';
 
-export default function ExampleCarouselImage({ src, alt }) {
-  return (
-    <div
+export default function ExampleCarouselImage({
+  src,
+  alt,
+}: {
+  src: any;
+  alt: any;
+}) {
+   return (
+    <img
+      src={src}
+      alt={alt}
       style={{
-        position: 'relative',
         width: '100%',
         height: '100vh',
-        overflow: 'hidden',
+        objectFit: 'cover',
+        display: 'block',
       }}
-    >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        style={{ objectFit: 'cover' }}
-      />
-    </div>
+    />
   );
 }

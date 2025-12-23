@@ -13,7 +13,7 @@ function page({}: Props) {
   return (
      <>
           <main className="w-full flex min-h-screen bg-[#F7F9F8] bg-center">
-                  <LoginRegister />
+                  <FormRegister />
                   <Carousel />
           </main>
     </>
