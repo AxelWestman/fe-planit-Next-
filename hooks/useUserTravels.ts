@@ -8,6 +8,7 @@ export interface TravelSummary {
   endDate: string;
   durationDays: number;
 }
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
 
 export default function useUserTravels() {
   const { token, userId } = useAuthStore();
@@ -21,7 +22,7 @@ export default function useUserTravels() {
     setError(null);
 
     try {
-      const response = await fetch(`/api/travels/user/${userId}`, {
+      const response = await fetch(`${API_URL}/api/travels/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

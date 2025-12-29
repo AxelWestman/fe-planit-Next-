@@ -11,6 +11,8 @@ type LoginResult<T = any> = {
   error: string | null;
 };
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
+
 export function useLogin() {
   const { setAuth } = useAuthStore();
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +21,7 @@ export function useLogin() {
     setError(null);
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

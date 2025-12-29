@@ -33,9 +33,9 @@ export function useAiChat() {
     setIsLoading(true);
 
     //const res = await fetch(`http://localhost:5290/api/ai/chat?pregunta=${encodeURIComponent(prompt)}`,  ejemplo viejo
-
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
     try {
-      const res = await fetch(`/api/ai/chat?pregunta=${encodeURIComponent(prompt)}`, 
+      const res = await fetch(`${API_URL}/api/ai/chat?pregunta=${encodeURIComponent(prompt)}`, 
       {
         method: "POST",
         headers: {

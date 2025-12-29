@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuthStore } from "@/app/Stores/auth.store";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
 
 export default function useGenerateItinerary() {
     const { token } = useAuthStore(); 
@@ -11,14 +12,14 @@ export default function useGenerateItinerary() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const generateItinerary = async (travelId : any) => {
+  const generateItinerary = async (id : any) => {
     
     setLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      const response = await fetch(`/api/travels/${travelId}/generate`, {
+      const response = await fetch(`${API_URL}/api/travels/${id}/generate`, {
         method: 'POST', // o GET, según tu API
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +36,7 @@ export default function useGenerateItinerary() {
       setSuccess(true);
       return data;
     } catch (err) {
-      setError(err);
+      setError(err as any);
       return null;
     } finally {
       setLoading(false);

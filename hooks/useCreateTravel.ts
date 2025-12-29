@@ -14,6 +14,8 @@ export default function useCreateTravel() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
+
   const createTravel = async (travelData : any) => {
 
     console.log('Creating travel with data:', travelData);
@@ -34,7 +36,7 @@ export default function useCreateTravel() {
         ...travelData,
       };
 
-      const response = await fetch('/api/travels', {
+      const response = await fetch(`${API_URL}/api/travels`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -6,11 +6,14 @@
 
 // export default nextConfig;
 
-import { output } from "framer-motion/client";
+import { image, output } from "framer-motion/client";
 import type { NextConfig } from "next";
 
 const nextConfig = {
   output: 'export',
+  images: {
+    unoptimized: true,
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
