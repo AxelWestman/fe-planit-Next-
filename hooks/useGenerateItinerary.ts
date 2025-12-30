@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuthStore } from "@/app/Stores/auth.store";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export default function useGenerateItinerary() {
     const { token } = useAuthStore(); 

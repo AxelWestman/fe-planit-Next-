@@ -14,7 +14,7 @@ export default function useCreateTravel() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
   const createTravel = async (travelData : any) => {
 

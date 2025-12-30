@@ -11,7 +11,7 @@ type LoginResult<T = any> = {
   error: string | null;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export function useLogin() {
   const { setAuth } = useAuthStore();

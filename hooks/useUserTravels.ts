@@ -8,7 +8,7 @@ export interface TravelSummary {
   endDate: string;
   durationDays: number;
 }
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5290';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 export default function useUserTravels() {
   const { token, userId } = useAuthStore();
