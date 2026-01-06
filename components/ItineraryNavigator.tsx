@@ -1,0 +1,73 @@
+import React, { useState } from 'react';
+import ItineraryCard from './ItineraryCard';
+import { useAuthStore } from '@/app/Stores/auth.store';
+
+type Activity = {
+  time: string;
+  place_name: string;
+  description: string;
+  category: string;
+  price_estimate?: string;
+  requires_ticket?: boolean;
+  coordinates?: { lat: number; lng: number };
+};
+
+type ItineraryDay = {
+  day_number: number;
+  theme: string;
+  activities: Activity[];
+};
+
+type ItineraryData = {
+  trip_title: string;
+  days: ItineraryDay[];
+};
+
+type Props = {
+  itineraryData: ItineraryData;
+};
+
+const ItineraryNavigator = () => {
+
+      const { itinerary } = useAuthStore();
+
+  const [currentDayIndex, setCurrentDayIndex] = useState(0);
+
+  const totalDays = itinerary.days?.length;
+
+  const prevDay = () => {
+    setCurrentDayIndex((index) => (index > 0 ? index - 1 : index));
+  };
+
+  const nextDay = () => {
+    setCurrentDayIndex((index) => (index < totalDays! - 1 ? index + 1 : index));
+  };
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold mb-4">{itinerary.trip_title}</h2>
+
+      <ItineraryCard day={itinerary.days?.[currentDayIndex]} />
+
+      <div className="mt-4 flex gap-4 w-full justify-center">
+        <button
+          onClick={prevDay}
+          disabled={currentDayIndex === 0}
+          className="px-4 py-2 w-2.5 bg-gray-300 rounded disabled:opacity-50 flex items-center justify-center"
+        >
+          🡨
+        </button>
+
+        <button
+          onClick={nextDay}
+          disabled={currentDayIndex === totalDays! - 1}
+          className="px-4 py-2 w-2.5 bg-gray-300 rounded disabled:opacity-50 flex items-center justify-center"
+        >
+         🡪
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ItineraryNavigator;
